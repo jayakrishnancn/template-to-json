@@ -2,6 +2,7 @@ import { Button, ButtonGroup } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { exportText, get, readFile, save } from "../../utils";
+import { disableTabOut } from "../../utils/tab";
 
 type Props = {
   title: string;
@@ -25,11 +26,11 @@ function SingleContainer(props: Props) {
     contentText,
     renderTopBar = (props?: any) => null,
   } = props;
-  const id = encodeURI(title);
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    if (!contentText) {
+    if (contentText === null || contentText === undefined) {
       const value = get(title) ?? "";
       setDefaultValue(value);
       setContentLength(value.length);
@@ -94,6 +95,7 @@ function SingleContainer(props: Props) {
       <textarea
         defaultValue={defaultValue ?? ""}
         value={contentText}
+        onKeyDown={disableTabOut}
         onChange={onChange}
         ref={textareaRef}
         className="textarea"

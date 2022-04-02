@@ -1,35 +1,38 @@
 import { Button, TextField } from "@mui/material";
-import { toJson } from "really-relaxed-json";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import SingleContainer from "./components/Textarea/SingleContainer";
-import { fillTemplate, get } from "./utils";
+import { get } from "./utils";
+import { convert } from "./services/convert";
 
 function App() {
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState(" ");
+  const rootKeyRef = useRef<HTMLInputElement>();
   const renderRootKeyInput = (props) => {
     return (
       <TextField
         size="small"
+        inputRef={rootKeyRef}
         placeholder="root for this key. eg. one.two.three"
       />
     );
   };
   const convertButton = (props: { setValue: (val: string) => void }) => {
-    const convert = () => {
-      const template = get("Template");
-      try {
-        const inputStr = toJson(get("Input JSON") ?? "{}");
-        const inputJS = JSON.parse(inputStr);
-        const result = fillTemplate(template, inputJS);
-        setResult(result);
-      } catch (err) {
-        console.error(err);
-        setResult(`Error: ${err}`);
-      }
+    const transformJson = (e) => {
+      const val = convert(
+        get("Template"),
+        get("Input JSON"),
+        rootKeyRef.current?.value ?? ""
+      );
+      setResult(val);
     };
     return (
-      <Button onClick={convert} size="small" variant="contained" color="error">
+      <Button
+        onClick={transformJson}
+        size="small"
+        variant="contained"
+        color="error"
+      >
         Convert
       </Button>
     );
