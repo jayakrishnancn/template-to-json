@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@mui/material";
+import { toJson } from "really-relaxed-json";
+import { useState } from "react";
+import "./App.css";
+import SingleContainer from "./components/Textarea/SingleContainer";
+import { fillTemplate, get } from "./utils";
 
 function App() {
+  const [result, setResult] = useState("");
+
+  const convertButton = (props: { setValue: (val: string) => void }) => {
+    const convert = () => {
+      const template = get("Template");
+      try {
+        const inputStr = toJson(get("Input JSON") ?? "{}");
+        const inputJS = JSON.parse(inputStr);
+        const result = fillTemplate(template, inputJS);
+        setResult(result);
+      } catch (err) {
+        console.error(err);
+        setResult(`Error: ${err}`);
+      }
+    };
+    return (
+      <Button onClick={convert} size="small" variant="contained" color="error">
+        Convert
+      </Button>
+    );
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App flex w-full">
+      <header></header>
+      <SingleContainer onChange={() => {}} title="Template" />
+      <SingleContainer
+        onChange={() => {}}
+        title="Input JSON"
+        renderTopBar={convertButton}
+      />
+      <SingleContainer
+        onChange={setResult}
+        title="Result"
+        contentText={result}
+        disableImport
+      />
+      <footer></footer>
     </div>
   );
 }
