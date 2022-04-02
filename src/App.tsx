@@ -1,28 +1,38 @@
 import { Button, TextField } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import SingleContainer from "./components/Textarea/SingleContainer";
-import { get } from "./utils";
+import { get, save } from "./utils";
 import { convert } from "./services/convert";
+import { StoredItems } from "./enums";
+const RenderRootKeyInput = (props) => {
+  const [thisKeyValue, setThisKeyValue] = useState("");
 
+  useEffect(() => {
+    setThisKeyValue(get(StoredItems.thisRootKey) ?? "");
+  }, []);
+
+  return (
+    <TextField
+      value={thisKeyValue}
+      size="small"
+      onChange={(e) => {
+        setThisKeyValue(e.target?.value);
+        save(StoredItems.thisRootKey, e.target.value);
+      }}
+      placeholder="root for this key. eg. one.two.three"
+    />
+  );
+};
 function App() {
   const [result, setResult] = useState(" ");
-  const rootKeyRef = useRef<HTMLInputElement>();
-  const renderRootKeyInput = (props) => {
-    return (
-      <TextField
-        size="small"
-        inputRef={rootKeyRef}
-        placeholder="root for this key. eg. one.two.three"
-      />
-    );
-  };
+
   const convertButton = (props: { setValue: (val: string) => void }) => {
     const transformJson = (e) => {
       const val = convert(
-        get("Template"),
-        get("Input JSON"),
-        rootKeyRef.current?.value ?? ""
+        get(StoredItems.template),
+        get(StoredItems.inputJSON),
+        get(StoredItems.thisRootKey) ?? ""
       );
       setResult(val);
     };
@@ -42,12 +52,12 @@ function App() {
       <header></header>
       <SingleContainer
         onChange={() => {}}
-        renderTopBar={renderRootKeyInput}
-        title="Template"
+        renderTopBar={(props) => <RenderRootKeyInput />}
+        title={StoredItems.template}
       />
       <SingleContainer
         onChange={() => {}}
-        title="Input JSON"
+        title={StoredItems.inputJSON}
         renderTopBar={convertButton}
       />
       <SingleContainer
