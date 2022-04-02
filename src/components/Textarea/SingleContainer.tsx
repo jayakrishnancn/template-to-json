@@ -1,6 +1,7 @@
 import { Button, ButtonGroup } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { exportText, get, save } from "../../utils";
+import { styled } from "@mui/material/styles";
+import { exportText, get, readFile, save } from "../../utils";
 
 type Props = {
   title: string;
@@ -10,6 +11,9 @@ type Props = {
   onChange: (value: string) => void;
   renderTopBar?: (props: any) => any;
 };
+const Input = styled("input")({
+  display: "none",
+});
 
 function SingleContainer(props: Props) {
   const [contentLength, setContentLength] = useState(0);
@@ -21,6 +25,7 @@ function SingleContainer(props: Props) {
     contentText,
     renderTopBar = (props?: any) => null,
   } = props;
+  const id = encodeURI(title);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -49,6 +54,15 @@ function SingleContainer(props: Props) {
     }
   };
 
+  const importFile = (e) => {
+    if (textareaRef.current) {
+      readFile(e, (value) => {
+        textareaRef.current!.value = value;
+        setValue(value);
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col box-container">
       <h1>{title}</h1>
@@ -60,7 +74,19 @@ function SingleContainer(props: Props) {
                 Export
               </Button>
             )}
-            {!disableImport && <Button variant="contained">Import</Button>}
+            {!disableImport && (
+              <label htmlFor={"import-" + id}>
+                <Input
+                  onChange={importFile}
+                  id={"import-" + id}
+                  multiple
+                  type="file"
+                />
+                <Button variant="contained" component="span">
+                  Upload
+                </Button>
+              </label>
+            )}
           </ButtonGroup>
         </div>
         <div style={{ flex: 1 }}></div>

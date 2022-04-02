@@ -20,7 +20,7 @@ export function exportText(fileName: string, data: string) {
   a.remove();
 }
 
-var readFile = function (event, onLoad: (text) => void) {
+export const readFile = function (event, onLoad: (text) => void) {
   var input = event.target;
 
   var reader = new FileReader();
