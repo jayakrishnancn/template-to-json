@@ -65,27 +65,18 @@ function SingleContainer(props: Props) {
 
   return (
     <div className="flex flex-col box-container">
-      <h1>{title}</h1>
-      <div className="flex m-2 align-center">
+      <h1 style={{ margin: 0 }}>{title}</h1>
+      <div className="flex mb-2 align-center" style={{ height: 50 }}>
         <div>
-          <ButtonGroup size="small">
-            {!disableExport && (
-              <Button variant="contained" onClick={onExport}>
-                Export
-              </Button>
-            )}
+          <ButtonGroup variant="outlined" size="small">
+            {!disableExport && <Button onClick={onExport}>Export</Button>}
             {!disableImport && (
-              <label htmlFor={"import-" + id}>
-                <Input
-                  onChange={importFile}
-                  id={"import-" + id}
-                  multiple
-                  type="file"
-                />
-                <Button variant="contained" component="span">
+              <Button>
+                <label>
                   Upload
-                </Button>
-              </label>
+                  <Input onChange={importFile} type="file" />
+                </label>
+              </Button>
             )}
           </ButtonGroup>
         </div>

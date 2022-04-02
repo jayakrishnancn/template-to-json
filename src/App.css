@@ -47,10 +47,11 @@ body,
   transition: 0.3s;
   font-size: 13px;
   font-family: monospace;
+  border-radius: 4px;
 }
 .textarea:focus,
 .textarea:active {
-  border-color: black;
+  border-color: #1976d2;
 }
 
 .m-2 {

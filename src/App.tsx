@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { toJson } from "really-relaxed-json";
 import { useState } from "react";
 import "./App.css";
@@ -7,7 +7,14 @@ import { fillTemplate, get } from "./utils";
 
 function App() {
   const [result, setResult] = useState("");
-
+  const renderRootKeyInput = (props) => {
+    return (
+      <TextField
+        size="small"
+        placeholder="root for this key. eg. one.two.three"
+      />
+    );
+  };
   const convertButton = (props: { setValue: (val: string) => void }) => {
     const convert = () => {
       const template = get("Template");
@@ -30,7 +37,11 @@ function App() {
   return (
     <div className="App flex w-full">
       <header></header>
-      <SingleContainer onChange={() => {}} title="Template" />
+      <SingleContainer
+        onChange={() => {}}
+        renderTopBar={renderRootKeyInput}
+        title="Template"
+      />
       <SingleContainer
         onChange={() => {}}
         title="Input JSON"
