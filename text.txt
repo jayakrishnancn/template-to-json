@@ -1,0 +1,10 @@
+${} - pute js literal 
+#{one} - translate to ${JSON.stringify(this.one)}
+#{} - similar to  ${JSON.stringify(this)}
+@one(`  #{two} ` - loop through this.id and print this.one
+         this.one.map( i => `  ${i.two} `).join(" ");
+ 
+{
+ one: [{two: 3},{two: 5}]
+
+}

@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import SingleContainer from "./components/Textarea/SingleContainer";
 import { get, save } from "./utils";
@@ -27,7 +27,7 @@ const RenderRootKeyInput = (props) => {
 function App() {
   const [result, setResult] = useState(" ");
 
-  const convertButton = (props: { setValue: (val: string) => void }) => {
+  const convertButton = () => {
     const transformJson = (e) => {
       const val = convert(
         get(StoredItems.template),
@@ -52,7 +52,7 @@ function App() {
       <header></header>
       <SingleContainer
         onChange={() => {}}
-        renderTopBar={(props) => <RenderRootKeyInput />}
+        renderTopBar={() => <RenderRootKeyInput />}
         title={StoredItems.template}
       />
       <SingleContainer

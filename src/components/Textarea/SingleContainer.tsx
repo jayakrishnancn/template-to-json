@@ -1,3 +1,4 @@
+import { toJson } from "really-relaxed-json";
 import { Button, ButtonGroup } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
@@ -44,9 +45,25 @@ function SingleContainer(props: Props) {
       props.onChange(value);
     }
   };
-  const onChange = async (event) => {
-    if (event.target.value) {
+  /* const onChange = async (event) => {
+    if (event.target.value) { 
       setValue(event.target.value);
+       
+    }
+  }; */
+
+  const onBlur = async (event) => {
+    if (event.target.value) {
+      let value = event.target.value;
+      try {
+        value = toJson(event.target.value, null, 2);
+      } catch (e) {
+        console.error(e);
+      }
+      setValue(value);
+      if (textareaRef.current?.value) {
+        textareaRef.current!.value = value;
+      }
     }
   };
   const onExport = () => {
@@ -96,7 +113,7 @@ function SingleContainer(props: Props) {
         defaultValue={defaultValue ?? ""}
         value={contentText}
         onKeyDown={disableTabOut}
-        onChange={onChange}
+        onBlur={onBlur}
         ref={textareaRef}
         className="textarea"
       ></textarea>
