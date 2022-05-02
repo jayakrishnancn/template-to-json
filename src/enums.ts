@@ -1,5 +1,5 @@
 export enum StoredItems {
-  template = "template-field",
-  inputJSON = "inputJSON-field",
+  template = "Template",
+  inputJSON = "Input JSON",
   thisRootKey = "thisRootKey-field",
 }

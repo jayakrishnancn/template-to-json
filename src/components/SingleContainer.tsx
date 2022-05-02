@@ -2,8 +2,8 @@ import { toJson } from "really-relaxed-json";
 import { Button, ButtonGroup } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
-import { exportText, get, readFile, save } from "../../utils";
-import { disableTabOut } from "../../utils/tab";
+import { exportText, get, readFile, save } from "../utils";
+import { disableTabOut } from "../utils/tab";
 
 type Props = {
   title: string;

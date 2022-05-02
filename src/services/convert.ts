@@ -4,14 +4,7 @@ import { fillTemplate } from "../utils";
 function stringifyTemplateObjectsAndAddThis(template: string | null): string {
   if (!template) return "";
 
-  return template.replace(/\#{([^}]*)}/g, "${JSON.stringify(this.$1)}");
-  /* const t = template
-    .replace(/\$\{.*this[^}]*}/, "${}")
-    .replace(/\${([^}]*)}/g, "${JSON.stringify(this.$1)}");
-  return t.replace(
-    /\$\{JSON\.stringify\(this\.\)[^}]*}/g,
-    "${JSON.stringify(this)}"
-  ); */
+  return template.replace(/#{([^}]*)}/g, "${JSON.stringify(this.$1)}");
 }
 
 export function convert(
