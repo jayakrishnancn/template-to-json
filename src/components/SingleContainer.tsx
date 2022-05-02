@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { exportText, get, readFile, save } from "../utils";
 import { disableTabOut } from "../utils/tab";
+import getSampleData from "../data";
 
 type Props = {
   title: string;
@@ -32,7 +33,7 @@ function SingleContainer(props: Props) {
 
   useEffect(() => {
     if (contentText === null || contentText === undefined) {
-      const value = get(title) ?? "";
+      const value = get(title) ?? getSampleData(title);
       setDefaultValue(value);
       setContentLength(value.length);
     }

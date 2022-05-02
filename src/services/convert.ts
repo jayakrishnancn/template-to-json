@@ -4,6 +4,7 @@ import { fillTemplate } from "../utils";
 function stringifyTemplateObjectsAndAddThis(template: string | null): string {
   if (!template) return "";
 
+  // eslint-disable-next-line no-template-curly-in-string
   return template.replace(/#{([^}]*)}/g, "${JSON.stringify(this.$1)}");
 }
 
